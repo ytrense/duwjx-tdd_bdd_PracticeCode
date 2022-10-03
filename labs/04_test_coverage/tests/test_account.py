@@ -53,3 +53,8 @@ class TestAccountModel(TestCase):
         account.create()
         self.assertEqual(len(Account.all()), 1)
 
+    def test_printing_account(self):
+        data = ACCOUNT_DATA[self.rand] # get a random account
+        account = Account()
+        account.name = "Foo"
+        self.assertEqual(str(account), "<Account 'Foo'>")
