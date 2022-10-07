@@ -25,3 +25,15 @@ class CounterTest(TestCase):
         self.assertEqual(result.status_code, status.HTTP_201_CREATED)
         result = self.client.post("/counters/bar")
         self.assertEqual(result.status_code, status.HTTP_409_CONFLICT)
+
+    def test_update_a_counter(self):
+        """It should increment the counter"""
+        result = self.client.post("/counters/baz")
+        self.assertEqual(result.status_code, status.HTTP_201_CREATED)
+        data = result.get_json()
+        baseline = data["baz"]
+        # Update the counter
+        result = self.client.put("/counters/baz")
+        self.assertEqual(result.status_code, status.HTTP_200_OK)
+        data = result.get_json()
+        self.assertEqual(data["baz"], baseline + 1)
